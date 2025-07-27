@@ -14,9 +14,9 @@ function Card:set_sprites(_center, _front)
     set_spritesref(self, _center, _front)
     if _center then
         if _center.set then
-            if (_center.set == 'Joker' or _center.consumeable or _center.set == 'Voucher') and _center.atlas then
+            if (_center.set == 'Joker') and _center.atlas then
                 self.children.center.atlas = G.ASSET_ATLAS
-                    [(_center.atlas or (_center.set == 'Joker' or _center.consumeable or _center.set == 'Voucher') and _center.set) or 'centers']
+                    [(_center.atlas or (_center.set == 'Joker') and _center.set) or 'centers']
                 self.children.center:set_sprite_pos(_center.pos)
             end
         end
@@ -53,7 +53,7 @@ function SMODS.INIT.LeJoker()
     SMODS.Sprite:new("j_lejoker", SMODS.findModByID(MOD_ID).path, "j_lejoker.png", 71, 95, "asset_atli"):register()
 
     local generate_UIBox_ability_tableref = Card.generate_UIBox_ability_table
-function Card:generate_UIBox_ability_table()
+    function Card:generate_UIBox_ability_table()
     if self.ability.set == 'Joker' and self.ability.name == 'LeJoker' then
         if type(self.ability.extra) ~= "table" or 
            self.ability.extra.current_Xmult == nil or self.ability.extra.Xmult_mod == nil then
@@ -132,8 +132,10 @@ function Card:calculate_joker(context)
             if type(card) == "table" and card.get_id and card.base and card.base.suit then
                 local is_king = card:get_id() == 13
                 local is_clubs_or_spades = card.base.suit == "Clubs" or card.base.suit == "Spades"
+                
+                local is_wild_card_effect = card.ability and card.ability.effect == "Wild Card"
 
-                if is_king and is_clubs_or_spades then
+                if is_king and (is_clubs_or_spades or is_wild_card_effect) then
                     self.ability.extra.current_Xmult = self.ability.extra.current_Xmult + self.ability.extra.Xmult_mod
                     return { message = localize('k_upgrade_ex'), card = self }
                 end
