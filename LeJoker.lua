@@ -126,18 +126,18 @@ function Card:calculate_joker(context)
             }
         end
 
-        if context and context.cardarea == G.play and not context.repetition then
+        if context.cardarea == G.play and not context.repetition then
             local card = context.other_card or context.card or nil
-
-            if type(card) == "table" and card.get_id and card.base and card.base.suit then
+            
+            if card.get_id and card.base and card.base.suit then
                 local is_king = card:get_id() == 13
-                local is_clubs_or_spades = card.base.suit == "Clubs" or card.base.suit == "Spades"
-                
-                local is_wild_card_effect = card.ability and card.ability.effect == "Wild Card"
+                local is_clubs_or_spades = card:is_suit('Clubs') or card:is_suit('Spades')
 
-                if is_king and (is_clubs_or_spades or is_wild_card_effect) then
-                    self.ability.extra.current_Xmult = self.ability.extra.current_Xmult + self.ability.extra.Xmult_mod
-                    return { message = localize('k_upgrade_ex'), card = self }
+                if is_king and (is_clubs_or_spades) then
+                    if not context.blueprint then
+                        self.ability.extra.current_Xmult = self.ability.extra.current_Xmult + self.ability.extra.Xmult_mod
+                        return { message = localize('k_upgrade_ex'), card = self }
+                    end
                 end
             end
         end
