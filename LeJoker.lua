@@ -23,6 +23,13 @@ function Card:set_sprites(_center, _front)
     end
 end
 
+SMODS.Atlas({
+   key = "modicon",
+   path = "lejoker_icon.png",
+   px = 32,
+   py = 32
+ })
+
 function SMODS.INIT.LeJoker()
     local lejoker_localization = {
         name = "LeJoker",
@@ -44,8 +51,8 @@ function SMODS.INIT.LeJoker()
         },
         {x = 0, y = 0},
         lejoker_localization,
-        1,
-        4
+        3,
+        8
     )
 
     lejoker:register()
@@ -72,6 +79,10 @@ function SMODS.INIT.LeJoker()
 
         if self.ability.set == 'Joker' and self.bypass_discovery_ui then
             badges.force_rarity = true
+        end
+
+        if self.sticker then
+            loc_vars.sticker = self.sticker
         end
 
         return generate_card_ui(self.config.center, nil, loc_vars, nil, badges, nil, nil, nil)
