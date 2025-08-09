@@ -70,28 +70,8 @@ function SMODS.INIT.LeJoker()
 
         local badges = {}
 
-        local card_type = self.ability.set or "None"
-
-        if (card_type ~= 'Locked' and card_type ~= 'Undiscovered' and card_type ~= 'Default') or self.debuff then
-                badges.card_type = "card_type"
-        end
-
         if self.ability.set == 'Joker' and self.bypass_discovery_ui then
             badges.force_rarity = true
-        end
-        if self.edition then
-            if self.edition.type == 'negative' and self.edition.consumeable then
-                badges[#badges + 1] = 'negative_consumable'
-            else
-                badges[#badges + 1] = (self.edition.type == 'holo' and 'holographic' or self.edition.type)
-            end
-        end
-        if self.seal then badges[#badges + 1] = string.lower(self.seal) .. '_seal' end
-        if self.ability.eternal then badges[#badges + 1] = 'eternal' end
-        if self.pinned then badges[#badges + 1] = 'pinned_left' end
-
-        if self.sticker then
-            loc_vars.sticker = self.sticker
         end
 
         return generate_card_ui(self.config.center, nil, loc_vars, nil, badges, nil, nil, nil)
