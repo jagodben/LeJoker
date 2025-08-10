@@ -34,7 +34,7 @@ function SMODS.INIT.LeJoker()
     local lejoker_localization = {
         name = "LeJoker",
         text = {
-            "Each played Black King adds {X:mult,C:white}#1#X {} Mult",
+            "Each played Black King adds {X:mult,C:white}#1#X {} Mult when scored",
             "Currently {X:mult,C:white}X#2# {} Mult"
         }
     }
